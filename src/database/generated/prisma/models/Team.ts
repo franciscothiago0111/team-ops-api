@@ -193,6 +193,7 @@ export type TeamWhereInput = {
   members?: Prisma.UserListRelationFilter
   manager?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  tasks?: Prisma.TaskListRelationFilter
 }
 
 export type TeamOrderByWithRelationInput = {
@@ -205,6 +206,7 @@ export type TeamOrderByWithRelationInput = {
   members?: Prisma.UserOrderByRelationAggregateInput
   manager?: Prisma.UserOrderByWithRelationInput
   company?: Prisma.CompanyOrderByWithRelationInput
+  tasks?: Prisma.TaskOrderByRelationAggregateInput
 }
 
 export type TeamWhereUniqueInput = Prisma.AtLeast<{
@@ -220,6 +222,7 @@ export type TeamWhereUniqueInput = Prisma.AtLeast<{
   members?: Prisma.UserListRelationFilter
   manager?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  tasks?: Prisma.TaskListRelationFilter
 }, "id">
 
 export type TeamOrderByWithAggregationInput = {
@@ -254,6 +257,7 @@ export type TeamCreateInput = {
   members?: Prisma.UserCreateNestedManyWithoutTeamInput
   manager: Prisma.UserCreateNestedOneWithoutManagedTeamsInput
   company: Prisma.CompanyCreateNestedOneWithoutTeamsInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutTeamInput
 }
 
 export type TeamUncheckedCreateInput = {
@@ -264,6 +268,7 @@ export type TeamUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.UserUncheckedCreateNestedManyWithoutTeamInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutTeamInput
 }
 
 export type TeamUpdateInput = {
@@ -274,6 +279,7 @@ export type TeamUpdateInput = {
   members?: Prisma.UserUpdateManyWithoutTeamNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedTeamsNestedInput
   company?: Prisma.CompanyUpdateOneRequiredWithoutTeamsNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamUncheckedUpdateInput = {
@@ -284,6 +290,7 @@ export type TeamUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.UserUncheckedUpdateManyWithoutTeamNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamCreateManyInput = {
@@ -351,6 +358,11 @@ export type TeamMinOrderByAggregateInput = {
   companyId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type TeamScalarRelationFilter = {
+  is?: Prisma.TeamWhereInput
+  isNot?: Prisma.TeamWhereInput
 }
 
 export type TeamCreateNestedOneWithoutMembersInput = {
@@ -453,6 +465,20 @@ export type TeamUncheckedUpdateManyWithoutCompanyNestedInput = {
   deleteMany?: Prisma.TeamScalarWhereInput | Prisma.TeamScalarWhereInput[]
 }
 
+export type TeamCreateNestedOneWithoutTasksInput = {
+  create?: Prisma.XOR<Prisma.TeamCreateWithoutTasksInput, Prisma.TeamUncheckedCreateWithoutTasksInput>
+  connectOrCreate?: Prisma.TeamCreateOrConnectWithoutTasksInput
+  connect?: Prisma.TeamWhereUniqueInput
+}
+
+export type TeamUpdateOneRequiredWithoutTasksNestedInput = {
+  create?: Prisma.XOR<Prisma.TeamCreateWithoutTasksInput, Prisma.TeamUncheckedCreateWithoutTasksInput>
+  connectOrCreate?: Prisma.TeamCreateOrConnectWithoutTasksInput
+  upsert?: Prisma.TeamUpsertWithoutTasksInput
+  connect?: Prisma.TeamWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TeamUpdateToOneWithWhereWithoutTasksInput, Prisma.TeamUpdateWithoutTasksInput>, Prisma.TeamUncheckedUpdateWithoutTasksInput>
+}
+
 export type TeamCreateWithoutMembersInput = {
   id?: string
   name: string
@@ -460,6 +486,7 @@ export type TeamCreateWithoutMembersInput = {
   updatedAt?: Date | string
   manager: Prisma.UserCreateNestedOneWithoutManagedTeamsInput
   company: Prisma.CompanyCreateNestedOneWithoutTeamsInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutTeamInput
 }
 
 export type TeamUncheckedCreateWithoutMembersInput = {
@@ -469,6 +496,7 @@ export type TeamUncheckedCreateWithoutMembersInput = {
   companyId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutTeamInput
 }
 
 export type TeamCreateOrConnectWithoutMembersInput = {
@@ -483,6 +511,7 @@ export type TeamCreateWithoutManagerInput = {
   updatedAt?: Date | string
   members?: Prisma.UserCreateNestedManyWithoutTeamInput
   company: Prisma.CompanyCreateNestedOneWithoutTeamsInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutTeamInput
 }
 
 export type TeamUncheckedCreateWithoutManagerInput = {
@@ -492,6 +521,7 @@ export type TeamUncheckedCreateWithoutManagerInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.UserUncheckedCreateNestedManyWithoutTeamInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutTeamInput
 }
 
 export type TeamCreateOrConnectWithoutManagerInput = {
@@ -522,6 +552,7 @@ export type TeamUpdateWithoutMembersInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedTeamsNestedInput
   company?: Prisma.CompanyUpdateOneRequiredWithoutTeamsNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamUncheckedUpdateWithoutMembersInput = {
@@ -531,6 +562,7 @@ export type TeamUncheckedUpdateWithoutMembersInput = {
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamUpsertWithWhereUniqueWithoutManagerInput = {
@@ -568,6 +600,7 @@ export type TeamCreateWithoutCompanyInput = {
   updatedAt?: Date | string
   members?: Prisma.UserCreateNestedManyWithoutTeamInput
   manager: Prisma.UserCreateNestedOneWithoutManagedTeamsInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutTeamInput
 }
 
 export type TeamUncheckedCreateWithoutCompanyInput = {
@@ -577,6 +610,7 @@ export type TeamUncheckedCreateWithoutCompanyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.UserUncheckedCreateNestedManyWithoutTeamInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutTeamInput
 }
 
 export type TeamCreateOrConnectWithoutCompanyInput = {
@@ -605,6 +639,62 @@ export type TeamUpdateManyWithWhereWithoutCompanyInput = {
   data: Prisma.XOR<Prisma.TeamUpdateManyMutationInput, Prisma.TeamUncheckedUpdateManyWithoutCompanyInput>
 }
 
+export type TeamCreateWithoutTasksInput = {
+  id?: string
+  name: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.UserCreateNestedManyWithoutTeamInput
+  manager: Prisma.UserCreateNestedOneWithoutManagedTeamsInput
+  company: Prisma.CompanyCreateNestedOneWithoutTeamsInput
+}
+
+export type TeamUncheckedCreateWithoutTasksInput = {
+  id?: string
+  name: string
+  managerId: string
+  companyId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.UserUncheckedCreateNestedManyWithoutTeamInput
+}
+
+export type TeamCreateOrConnectWithoutTasksInput = {
+  where: Prisma.TeamWhereUniqueInput
+  create: Prisma.XOR<Prisma.TeamCreateWithoutTasksInput, Prisma.TeamUncheckedCreateWithoutTasksInput>
+}
+
+export type TeamUpsertWithoutTasksInput = {
+  update: Prisma.XOR<Prisma.TeamUpdateWithoutTasksInput, Prisma.TeamUncheckedUpdateWithoutTasksInput>
+  create: Prisma.XOR<Prisma.TeamCreateWithoutTasksInput, Prisma.TeamUncheckedCreateWithoutTasksInput>
+  where?: Prisma.TeamWhereInput
+}
+
+export type TeamUpdateToOneWithWhereWithoutTasksInput = {
+  where?: Prisma.TeamWhereInput
+  data: Prisma.XOR<Prisma.TeamUpdateWithoutTasksInput, Prisma.TeamUncheckedUpdateWithoutTasksInput>
+}
+
+export type TeamUpdateWithoutTasksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.UserUpdateManyWithoutTeamNestedInput
+  manager?: Prisma.UserUpdateOneRequiredWithoutManagedTeamsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutTeamsNestedInput
+}
+
+export type TeamUncheckedUpdateWithoutTasksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  managerId?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.UserUncheckedUpdateManyWithoutTeamNestedInput
+}
+
 export type TeamCreateManyManagerInput = {
   id?: string
   name: string
@@ -620,6 +710,7 @@ export type TeamUpdateWithoutManagerInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.UserUpdateManyWithoutTeamNestedInput
   company?: Prisma.CompanyUpdateOneRequiredWithoutTeamsNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamUncheckedUpdateWithoutManagerInput = {
@@ -629,6 +720,7 @@ export type TeamUncheckedUpdateWithoutManagerInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.UserUncheckedUpdateManyWithoutTeamNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamUncheckedUpdateManyWithoutManagerInput = {
@@ -654,6 +746,7 @@ export type TeamUpdateWithoutCompanyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.UserUpdateManyWithoutTeamNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedTeamsNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamUncheckedUpdateWithoutCompanyInput = {
@@ -663,6 +756,7 @@ export type TeamUncheckedUpdateWithoutCompanyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.UserUncheckedUpdateManyWithoutTeamNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamUncheckedUpdateManyWithoutCompanyInput = {
@@ -680,10 +774,12 @@ export type TeamUncheckedUpdateManyWithoutCompanyInput = {
 
 export type TeamCountOutputType = {
   members: number
+  tasks: number
 }
 
 export type TeamCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   members?: boolean | TeamCountOutputTypeCountMembersArgs
+  tasks?: boolean | TeamCountOutputTypeCountTasksArgs
 }
 
 /**
@@ -703,6 +799,13 @@ export type TeamCountOutputTypeCountMembersArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.UserWhereInput
 }
 
+/**
+ * TeamCountOutputType without action
+ */
+export type TeamCountOutputTypeCountTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TaskWhereInput
+}
+
 
 export type TeamSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -714,6 +817,7 @@ export type TeamSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   members?: boolean | Prisma.Team$membersArgs<ExtArgs>
   manager?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  tasks?: boolean | Prisma.Team$tasksArgs<ExtArgs>
   _count?: boolean | Prisma.TeamCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["team"]>
 
@@ -753,6 +857,7 @@ export type TeamInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   members?: boolean | Prisma.Team$membersArgs<ExtArgs>
   manager?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  tasks?: boolean | Prisma.Team$tasksArgs<ExtArgs>
   _count?: boolean | Prisma.TeamCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TeamIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -770,6 +875,7 @@ export type $TeamPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     members: Prisma.$UserPayload<ExtArgs>[]
     manager: Prisma.$UserPayload<ExtArgs>
     company: Prisma.$CompanyPayload<ExtArgs>
+    tasks: Prisma.$TaskPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1175,6 +1281,7 @@ export interface Prisma__TeamClient<T, Null = never, ExtArgs extends runtime.Typ
   members<T extends Prisma.Team$membersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Team$membersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   manager<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tasks<T extends Prisma.Team$tasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Team$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1627,6 +1734,30 @@ export type Team$membersArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
+}
+
+/**
+ * Team.tasks
+ */
+export type Team$tasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Task
+   */
+  select?: Prisma.TaskSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Task
+   */
+  omit?: Prisma.TaskOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaskInclude<ExtArgs> | null
+  where?: Prisma.TaskWhereInput
+  orderBy?: Prisma.TaskOrderByWithRelationInput | Prisma.TaskOrderByWithRelationInput[]
+  cursor?: Prisma.TaskWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TaskScalarFieldEnum | Prisma.TaskScalarFieldEnum[]
 }
 
 /**

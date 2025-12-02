@@ -116,11 +116,14 @@ export type TeamScalarFieldEnum = (typeof TeamScalarFieldEnum)[keyof typeof Team
 
 export const TaskScalarFieldEnum = {
   id: 'id',
-  title: 'title',
+  name: 'name',
   description: 'description',
+  dueDate: 'dueDate',
+  teamId: 'teamId',
   status: 'status',
   priority: 'priority',
   assignedToId: 'assignedToId',
+  createdById: 'createdById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
