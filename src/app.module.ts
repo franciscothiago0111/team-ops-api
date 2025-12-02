@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-
 import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from './users/users.module';
-import { DatabaseModule } from './database/database.module';
+
 import { AuthModule } from './auth/auth.module';
 import { CommonModule } from './common/common.module';
+import { CompaniesModule } from './companies/companies.module';
+import { DatabaseModule } from './database/database.module';
+import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -15,6 +16,7 @@ import { CommonModule } from './common/common.module';
     DatabaseModule,
     AuthModule,
     CommonModule,
+    CompaniesModule,
   ],
 })
 export class AppModule {}
