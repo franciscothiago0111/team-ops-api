@@ -15,12 +15,124 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id       String  @id @default(uuid())
+  email    String  @unique
+  name     String?
+  password String
+  role     Role    @default(EMPLOYEE) // ADMIN | MANAGER | EMPLOYEE
+
+  companyId      String
+  company        Company  @relation("CompanyUsers", fields: [companyId], references: [id])
+  adminCompanyId String?  @unique
+  adminCompany   Company? @relation("CompanyAdmin")
+
+  teamId String?
+  team   Team?   @relation("TeamMembers", fields: [teamId], references: [id])
+
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  managedTeams  Team[]         @relation("TeamManager")
+  tasks         Task[]
+  notifications Notification[]
+
+  @@map("users")
+}
+
+model Company {
+  id      String  @id @default(uuid())
+  name    String
+  users   User[]  @relation("CompanyUsers")
+  admin   User?   @relation("CompanyAdmin", fields: [adminId], references: [id])
+  adminId String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  teams     Team[]
+
+  @@map("companies")
+}
+
+model Team {
+  id        String @id @default(uuid())
+  name      String
+  members   User[] @relation("TeamMembers")
+  managerId String
+  manager   User   @relation("TeamManager", fields: [managerId], references: [id])
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("users")
+  @@map("teams")
+}
+
+model Task {
+  id          String  @id @default(uuid())
+  title       String
+  description String?
+
+  status   TaskStatus @default(PENDING)
+  priority Priority   @default(MEDIUM)
+
+  assignedTo   User?    @relation(fields: [assignedToId], references: [id])
+  assignedToId String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("tasks")
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id])
+  message   String
+  type      NotificationType
+  isRead    Boolean          @default(false)
+  link      String?
+  createdAt DateTime         @default(now())
+
+  @@map("notifications")
+}
+
+model Log {
+  id        String   @id @default(uuid())
+  action    String
+  entity    String
+  entityId  String?
+  userId    String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@map("logs")
+}
+
+enum NotificationType {
+  TASK_ASSIGNED
+  TASK_UPDATED
+  TASK_COMPLETED
+  MENTION
+  SYSTEM
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  EMPLOYEE
 }
