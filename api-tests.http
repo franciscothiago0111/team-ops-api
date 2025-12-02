@@ -1,0 +1,18 @@
+### Variables
+@baseUrl = http://localhost:3001
+
+### Health Check
+GET {{baseUrl}}
+
+### Create User
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "email": "user@example.com", 
+  "name": "Default User"  
+}
+
+### List Users
+GET {{baseUrl}}/users 
+

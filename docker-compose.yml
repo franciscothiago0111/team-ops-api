@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: nest-postgres-team-ops
+    restart: no
+    environment:
+      POSTGRES_USER: nestuser
+      POSTGRES_PASSWORD: nestpass
+      POSTGRES_DB: nestdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - '5433:5432'
+
+  redis:
+    image: redis:7
+    container_name: nest-redis-team-ops
+    restart: no
+    ports:
+      - '6379:6379'
+
+  pgadmin:
+    image: dpage/pgadmin4:7
+    container_name: nest-pgadmin-team-ops
+    restart: no
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - '8080:80'
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
