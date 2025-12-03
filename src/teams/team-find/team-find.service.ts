@@ -18,6 +18,11 @@ export class TeamFindService {
         id: true,
         name: true,
         companyId: true,
+        manager: {
+          select: {
+            name: true,
+          },
+        },
         company: {
           select: {
             id: true,

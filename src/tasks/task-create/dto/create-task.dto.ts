@@ -14,12 +14,12 @@ import { Priority, TaskStatus } from 'src/database/generated/prisma/client';
 
 export class CreateTaskDto {
   @ApiProperty({
-    description: 'Task title',
+    description: 'Task name',
     example: 'Complete project documentation',
   })
   @IsString()
   @IsNotEmpty()
-  title: string;
+  name: string;
 
   @ApiPropertyOptional({
     description: 'Task description',

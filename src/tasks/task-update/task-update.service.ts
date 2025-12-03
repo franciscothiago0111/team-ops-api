@@ -87,7 +87,7 @@ export class TaskUpdateService {
     const updatedTask = await this.prisma.task.update({
       where: { id: taskId },
       data: {
-        ...(updateTaskDto.title && { title: updateTaskDto.title }),
+        ...(updateTaskDto.name && { name: updateTaskDto.name }),
         ...(updateTaskDto.description !== undefined && {
           description: updateTaskDto.description,
         }),

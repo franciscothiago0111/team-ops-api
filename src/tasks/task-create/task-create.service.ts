@@ -41,7 +41,7 @@ export class TaskCreateService {
       },
     });
 
-    if (!userInTeam) {
+    if (!userInTeam && user.role === 'MANAGER') {
       throw new ForbiddenException(
         'You must belong to the team to create tasks',
       );
@@ -83,7 +83,7 @@ export class TaskCreateService {
     // Create the task
     const task = await this.prisma.task.create({
       data: {
-        name: createTaskDto.title,
+        name: createTaskDto.name,
         description: createTaskDto.description,
         status: createTaskDto.status || 'PENDING',
         priority: createTaskDto.priority || 'MEDIUM',

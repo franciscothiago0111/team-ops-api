@@ -32,6 +32,18 @@ export class TeamListService {
           id: true,
           name: true,
           companyId: true,
+          managerId: true,
+          members: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          manager: {
+            select: {
+              name: true,
+            },
+          },
           company: {
             select: {
               id: true,

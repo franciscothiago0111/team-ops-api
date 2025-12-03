@@ -1,6 +1,6 @@
 export interface TaskCreatedEvent {
   taskId: string;
-  title: string;
+  name: string;
   createdById: string;
   teamId: string;
   companyId: string;
@@ -9,7 +9,7 @@ export interface TaskCreatedEvent {
 
 export interface TaskAssignedEvent {
   taskId: string;
-  title: string;
+  name: string;
   assignedToId: string;
   assignedById: string;
   teamId: string;
@@ -19,7 +19,7 @@ export interface TaskAssignedEvent {
 
 export interface TaskStatusUpdatedEvent {
   taskId: string;
-  title: string;
+  name: string;
   oldStatus: string;
   newStatus: string;
   updatedById: string;
@@ -30,7 +30,7 @@ export interface TaskStatusUpdatedEvent {
 
 export interface TaskCompletedEvent {
   taskId: string;
-  title: string;
+  name: string;
   completedById: string;
   teamId: string;
   companyId: string;

@@ -13,7 +13,7 @@ export class TaskListener {
 
   @OnEvent(EVENT_NAMES.TASK_CREATED)
   async handleTaskCreated(payload: TaskEvents.TaskCreatedEvent) {
-    this.logger.log(`Task created: ${payload.title} (${payload.taskId})`);
+    this.logger.log(`Task created: ${payload.name} (${payload.taskId})`);
 
     // Adicionar log à fila
     await this.queueService.addLogJob({
@@ -23,7 +23,7 @@ export class TaskListener {
       userId: payload.createdById,
       companyId: payload.companyId,
       metadata: {
-        title: payload.title,
+        name: payload.name,
         teamId: payload.teamId,
       },
     });
@@ -32,18 +32,18 @@ export class TaskListener {
   @OnEvent(EVENT_NAMES.TASK_ASSIGNED)
   async handleTaskAssigned(payload: TaskEvents.TaskAssignedEvent) {
     this.logger.log(
-      `Task assigned: ${payload.title} to user ${payload.assignedToId}`,
+      `Task assigned: ${payload.name} to user ${payload.assignedToId}`,
     );
 
     // Adicionar notificação à fila
     await this.queueService.addNotificationJob({
       userId: payload.assignedToId,
       title: 'Nova Tarefa Atribuída',
-      message: `Você foi atribuído à tarefa: ${payload.title}`,
+      message: `Você foi atribuído à tarefa: ${payload.name}`,
       type: 'INFO',
       entityType: 'Task',
       entityId: payload.taskId,
-      metadata: { taskId: payload.taskId, taskTitle: payload.title },
+      metadata: { taskId: payload.taskId, taskname: payload.name },
     });
 
     // Adicionar log à fila
@@ -54,7 +54,7 @@ export class TaskListener {
       userId: payload.assignedById,
       companyId: payload.companyId,
       metadata: {
-        title: payload.title,
+        name: payload.name,
         assignedToId: payload.assignedToId,
       },
     });
@@ -63,7 +63,7 @@ export class TaskListener {
   @OnEvent(EVENT_NAMES.TASK_STATUS_UPDATED)
   async handleTaskStatusUpdated(payload: TaskEvents.TaskStatusUpdatedEvent) {
     this.logger.log(
-      `Task status updated: ${payload.title} from ${payload.oldStatus} to ${payload.newStatus}`,
+      `Task status updated: ${payload.name} from ${payload.oldStatus} to ${payload.newStatus}`,
     );
 
     // Adicionar log à fila
@@ -74,7 +74,7 @@ export class TaskListener {
       userId: payload.updatedById,
       companyId: payload.companyId,
       metadata: {
-        title: payload.title,
+        name: payload.name,
         oldStatus: payload.oldStatus,
         newStatus: payload.newStatus,
       },
@@ -83,17 +83,17 @@ export class TaskListener {
 
   @OnEvent(EVENT_NAMES.TASK_COMPLETED)
   async handleTaskCompleted(payload: TaskEvents.TaskCompletedEvent) {
-    this.logger.log(`Task completed: ${payload.title} (${payload.taskId})`);
+    this.logger.log(`Task completed: ${payload.name} (${payload.taskId})`);
 
     // Adicionar notificação à fila
     await this.queueService.addNotificationJob({
       userId: payload.completedById,
       title: 'Tarefa Concluída',
-      message: `Parabéns! Você concluiu a tarefa: ${payload.title}`,
+      message: `Parabéns! Você concluiu a tarefa: ${payload.name}`,
       type: 'SUCCESS',
       entityType: 'Task',
       entityId: payload.taskId,
-      metadata: { taskId: payload.taskId, taskTitle: payload.title },
+      metadata: { taskId: payload.taskId, taskname: payload.name },
     });
 
     // Adicionar log à fila
@@ -104,7 +104,7 @@ export class TaskListener {
       userId: payload.completedById,
       companyId: payload.companyId,
       metadata: {
-        title: payload.title,
+        name: payload.name,
       },
     });
   }
