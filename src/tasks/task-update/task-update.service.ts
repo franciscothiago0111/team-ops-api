@@ -51,7 +51,6 @@ export class TaskUpdateService {
 
     // Handle assignment change
     const assignedToId = updateTaskDto.assignedToId;
-    let shouldResetStatus = false;
 
     if (assignedToId !== undefined && assignedToId !== task.assignedToId) {
       if (assignedToId) {
@@ -78,9 +77,6 @@ export class TaskUpdateService {
           );
         }
       }
-
-      // Reset status to PENDING when reassigning (optional rule)
-      shouldResetStatus = true;
     }
 
     // Update the task
@@ -98,12 +94,6 @@ export class TaskUpdateService {
             ? new Date(updateTaskDto.dueDate)
             : null,
         }),
-        ...(updateTaskDto.labels !== undefined && {
-          labels: updateTaskDto.labels,
-        }),
-        ...(assignedToId !== undefined && { assignedToId }),
-        ...(shouldResetStatus &&
-          !updateTaskDto.status && { status: TaskStatus.PENDING }),
       },
       include: {
         assignedTo: {

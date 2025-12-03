@@ -1,8 +1,13 @@
 import { Module } from '@nestjs/common';
-import { UserUpdateService } from './user-update.service';
+
+import { CommonModule } from 'src/common/common.module';
+import { DatabaseModule } from 'src/database/database.module';
+
 import { UserUpdateController } from './user-update.controller';
+import { UserUpdateService } from './user-update.service';
 
 @Module({
+  imports: [DatabaseModule, CommonModule],
   controllers: [UserUpdateController],
   providers: [UserUpdateService],
 })

@@ -274,11 +274,16 @@ export class MetricsService {
     endDate: Date,
     query: MetricsDto,
   ): Promise<ManagerMetricsResponse> {
-    const teamId = query.teamId || user.teamId;
+    const team = await this.prisma.team.findFirst({
+      where: { managerId: user.id },
+      include: { _count: { select: { members: true } } },
+    });
 
-    if (!teamId) {
-      throw new NotFoundException('Manager not assigned to a team');
+    if (!team) {
+      throw new NotFoundException('Manager has no assigned team');
     }
+
+    const teamId = team.id;
 
     // Build task filter
     const taskFilter: any = {
@@ -291,7 +296,6 @@ export class MetricsService {
 
     // Fetch metrics
     const [
-      team,
       totalTasks,
       pendingTasks,
       inProgressTasks,
@@ -309,10 +313,6 @@ export class MetricsService {
       warningNotifications,
       errorNotifications,
     ] = await Promise.all([
-      this.prisma.team.findUnique({
-        where: { id: teamId },
-        include: { _count: { select: { members: true } } },
-      }),
       this.prisma.task.count({ where: taskFilter }),
       this.prisma.task.count({ where: { ...taskFilter, status: 'PENDING' } }),
       this.prisma.task.count({
