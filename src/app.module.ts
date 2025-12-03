@@ -10,8 +10,11 @@ import { CompaniesModule } from './companies/companies.module';
 import { DatabaseModule } from './database/database.module';
 import { EventsModule } from './events/events.module';
 import { IntegrationsModule } from './integrations/integrations.module';
+import { MetricsModule } from './metrics/metrics.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { QueueModule } from './queue/queue.module';
+import { TasksModule } from './tasks/tasks.module';
+import { TeamsModule } from './teams/teams.module';
 import { UsersModule } from './users/users.module';
 import { WebsocketModule } from './websocket/websocket.module';
 @Module({
@@ -30,6 +33,9 @@ import { WebsocketModule } from './websocket/websocket.module';
     QueueModule,
     IntegrationsModule,
     NotificationsModule,
+    MetricsModule,
+    TeamsModule,
+    TasksModule,
   ],
   providers: [
     {

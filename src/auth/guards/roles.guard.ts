@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
-import { Role } from 'src/database/generated/prisma/enums';
+import { Role } from 'src/database/generated/prisma/client';
 
 import { ROLES_KEY } from '../decorators/roles.decorator';
 
