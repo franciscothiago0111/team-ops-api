@@ -30,7 +30,7 @@ model User {
   team   Team?   @relation("TeamMembers", fields: [teamId], references: [id])
 
   createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  updatedAt     DateTime       @default(now()) @updatedAt
   managedTeams  Team[]         @relation("TeamManager")
   assignedTasks Task[]         @relation("TaskAssignee")
   createdTasks  Task[]         @relation("TaskCreator")
@@ -47,8 +47,9 @@ model Company {
   adminId String? @unique
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
   teams     Team[]
+  logs      Log[]
 
   @@map("companies")
 }
@@ -64,7 +65,7 @@ model Team {
   company   Company @relation(fields: [companyId], references: [id])
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
   tasks     Task[]
 
   @@map("teams")
@@ -89,20 +90,28 @@ model Task {
   createdById String?
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@map("tasks")
 }
 
 model Notification {
-  id        String           @id @default(uuid())
+  id String @id @default(uuid())
+
+  title   String
+  message String
+  type    NotificationType @default(INFO)
+
+  read   Boolean   @default(false)
+  readAt DateTime?
+
+  entityType String? // Task, User, Team, etc.
+  entityId   String? // ID of the related entity
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
   userId    String
-  user      User             @relation(fields: [userId], references: [id])
-  message   String
-  type      NotificationType
-  isRead    Boolean          @default(false)
-  link      String?
-  createdAt DateTime         @default(now())
 
   @@map("notifications")
 }
@@ -113,6 +122,8 @@ model Log {
   entity    String
   entityId  String?
   userId    String?
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id])
   metadata  Json?
   createdAt DateTime @default(now())
 
@@ -120,11 +131,10 @@ model Log {
 }
 
 enum NotificationType {
-  TASK_ASSIGNED
-  TASK_UPDATED
-  TASK_COMPLETED
-  MENTION
-  SYSTEM
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
 }
 
 enum TaskStatus {

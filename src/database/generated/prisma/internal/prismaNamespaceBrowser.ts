@@ -133,12 +133,16 @@ export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof Task
 
 export const NotificationScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
+  title: 'title',
   message: 'message',
   type: 'type',
-  isRead: 'isRead',
-  link: 'link',
-  createdAt: 'createdAt'
+  read: 'read',
+  readAt: 'readAt',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
 } as const
 
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
@@ -150,6 +154,7 @@ export const LogScalarFieldEnum = {
   entity: 'entity',
   entityId: 'entityId',
   userId: 'userId',
+  companyId: 'companyId',
   metadata: 'metadata',
   createdAt: 'createdAt'
 } as const

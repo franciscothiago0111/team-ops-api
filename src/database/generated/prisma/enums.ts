@@ -10,11 +10,10 @@
 */
 
 export const NotificationType = {
-  TASK_ASSIGNED: 'TASK_ASSIGNED',
-  TASK_UPDATED: 'TASK_UPDATED',
-  TASK_COMPLETED: 'TASK_COMPLETED',
-  MENTION: 'MENTION',
-  SYSTEM: 'SYSTEM'
+  INFO: 'INFO',
+  SUCCESS: 'SUCCESS',
+  WARNING: 'WARNING',
+  ERROR: 'ERROR'
 } as const
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]

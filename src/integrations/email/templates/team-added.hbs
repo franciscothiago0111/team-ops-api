@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to the Team</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .header h1 {
+      color: #ffffff;
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .content {
+      padding: 40px 30px;
+    }
+
+    .content p {
+      color: #333333;
+      font-size: 16px;
+      line-height: 24px;
+      margin: 0 0 20px 0;
+    }
+
+    .team-details {
+      background-color: #e3f2fd;
+      border-left: 4px solid #4facfe;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .team-details p {
+      color: #333333;
+      font-size: 16px;
+      margin: 0 0 10px 0;
+    }
+
+    .team-details p:last-child {
+      margin-bottom: 0;
+      color: #666666;
+      font-size: 14px;
+    }
+
+    .benefits {
+      color: #666666;
+      font-size: 14px;
+      line-height: 24px;
+      margin: 20px 0 20px 20px;
+      padding: 0;
+    }
+
+    .benefits li {
+      margin-bottom: 8px;
+    }
+
+    .button-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .button {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      color: #ffffff;
+      padding: 14px 40px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .footer {
+      background-color: #f8f9fa;
+      padding: 20px 30px;
+      text-align: center;
+    }
+
+    .footer p {
+      color: #999999;
+      font-size: 12px;
+      line-height: 18px;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎉 Welcome to the Team!</h1>
+    </div>
+
+    <div class="content">
+      <p>Hi <strong>{{employeeName}}</strong>,</p>
+
+      <p>
+        {{#if addedByName}}
+        <strong>{{addedByName}}</strong> has added you to
+        {{else}}
+        You have been added to
+        {{/if}}
+        the <strong>{{teamName}}</strong> team{{#if companyName}} at {{companyName}}{{/if}}.
+      </p>
+
+      <div class="team-details">
+        <p><strong>Team: {{teamName}}</strong></p>
+        {{#if companyName}}
+        <p>Company: {{companyName}}</p>
+        {{/if}}
+      </div>
+
+      <p>As a team member, you can now:</p>
+
+      <ul class="benefits">
+        <li>Collaborate with your teammates on tasks and projects</li>
+        <li>View team tasks and progress</li>
+        <li>Receive notifications about team activities</li>
+        <li>Access shared team resources</li>
+      </ul>
+
+      <div class="button-container">
+        <a href="{{appUrl}}/teams" class="button">View Team</a>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>&copy; {{year}} TeamOps. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+
+</html>

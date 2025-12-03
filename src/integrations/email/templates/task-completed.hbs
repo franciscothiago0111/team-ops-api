@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Completed</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .header h1 {
+      color: #ffffff;
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .content {
+      padding: 40px 30px;
+    }
+
+    .content p {
+      color: #333333;
+      font-size: 16px;
+      line-height: 24px;
+      margin: 0 0 20px 0;
+    }
+
+    .task-completed {
+      background-color: #e8f5e9;
+      border-left: 4px solid #11998e;
+      border-radius: 4px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .task-completed .checkmark {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    .task-completed h2 {
+      color: #11998e;
+      font-size: 20px;
+      margin: 0 0 10px 0;
+    }
+
+    .task-completed .status {
+      color: #666666;
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .status-badge {
+      background-color: #11998e;
+      color: #ffffff;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    .completion-date {
+      color: #666666;
+      font-size: 14px;
+      margin: 10px 0 0 0;
+    }
+
+    .celebration {
+      font-size: 16px;
+      margin: 20px 0;
+    }
+
+    .button-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .button {
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+      color: #ffffff;
+      padding: 14px 40px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .footer {
+      background-color: #f8f9fa;
+      padding: 20px 30px;
+      text-align: center;
+    }
+
+    .footer p {
+      color: #999999;
+      font-size: 12px;
+      line-height: 18px;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>✅ Task Completed!</h1>
+    </div>
+
+    <div class="content">
+      <p>Hi <strong>{{assignedToName}}</strong>,</p>
+
+      <p>Great news! The task "<strong>{{taskTitle}}</strong>" has been marked as completed by
+        <strong>{{completedByName}}</strong>.
+      </p>
+
+      <div class="task-completed">
+        <div class="checkmark">✓</div>
+        <h2>{{taskTitle}}</h2>
+        <p class="status">Status: <span class="status-badge">COMPLETED</span></p>
+        {{#if completionDate}}
+        <p class="completion-date">Completed on: {{completionDate}}</p>
+        {{/if}}
+      </div>
+
+      <p class="celebration">🎉 Congratulations on completing this task! Keep up the great work!</p>
+
+      {{#if taskUrl}}
+      <div class="button-container">
+        <a href="{{taskUrl}}" class="button">View Task Details</a>
+      </div>
+      {{/if}}
+    </div>
+
+    <div class="footer">
+      <p>&copy; {{year}} TeamOps. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+
+</html>

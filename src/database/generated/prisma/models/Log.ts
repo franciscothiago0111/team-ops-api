@@ -30,6 +30,7 @@ export type LogMinAggregateOutputType = {
   entity: string | null
   entityId: string | null
   userId: string | null
+  companyId: string | null
   createdAt: Date | null
 }
 
@@ -39,6 +40,7 @@ export type LogMaxAggregateOutputType = {
   entity: string | null
   entityId: string | null
   userId: string | null
+  companyId: string | null
   createdAt: Date | null
 }
 
@@ -48,6 +50,7 @@ export type LogCountAggregateOutputType = {
   entity: number
   entityId: number
   userId: number
+  companyId: number
   metadata: number
   createdAt: number
   _all: number
@@ -60,6 +63,7 @@ export type LogMinAggregateInputType = {
   entity?: true
   entityId?: true
   userId?: true
+  companyId?: true
   createdAt?: true
 }
 
@@ -69,6 +73,7 @@ export type LogMaxAggregateInputType = {
   entity?: true
   entityId?: true
   userId?: true
+  companyId?: true
   createdAt?: true
 }
 
@@ -78,6 +83,7 @@ export type LogCountAggregateInputType = {
   entity?: true
   entityId?: true
   userId?: true
+  companyId?: true
   metadata?: true
   createdAt?: true
   _all?: true
@@ -161,6 +167,7 @@ export type LogGroupByOutputType = {
   entity: string
   entityId: string | null
   userId: string | null
+  companyId: string
   metadata: runtime.JsonValue | null
   createdAt: Date
   _count: LogCountAggregateOutputType | null
@@ -192,8 +199,10 @@ export type LogWhereInput = {
   entity?: Prisma.StringFilter<"Log"> | string
   entityId?: Prisma.StringNullableFilter<"Log"> | string | null
   userId?: Prisma.StringNullableFilter<"Log"> | string | null
+  companyId?: Prisma.StringFilter<"Log"> | string
   metadata?: Prisma.JsonNullableFilter<"Log">
   createdAt?: Prisma.DateTimeFilter<"Log"> | Date | string
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }
 
 export type LogOrderByWithRelationInput = {
@@ -202,8 +211,10 @@ export type LogOrderByWithRelationInput = {
   entity?: Prisma.SortOrder
   entityId?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyId?: Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  company?: Prisma.CompanyOrderByWithRelationInput
 }
 
 export type LogWhereUniqueInput = Prisma.AtLeast<{
@@ -215,8 +226,10 @@ export type LogWhereUniqueInput = Prisma.AtLeast<{
   entity?: Prisma.StringFilter<"Log"> | string
   entityId?: Prisma.StringNullableFilter<"Log"> | string | null
   userId?: Prisma.StringNullableFilter<"Log"> | string | null
+  companyId?: Prisma.StringFilter<"Log"> | string
   metadata?: Prisma.JsonNullableFilter<"Log">
   createdAt?: Prisma.DateTimeFilter<"Log"> | Date | string
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }, "id">
 
 export type LogOrderByWithAggregationInput = {
@@ -225,6 +238,7 @@ export type LogOrderByWithAggregationInput = {
   entity?: Prisma.SortOrder
   entityId?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyId?: Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.LogCountOrderByAggregateInput
@@ -241,6 +255,7 @@ export type LogScalarWhereWithAggregatesInput = {
   entity?: Prisma.StringWithAggregatesFilter<"Log"> | string
   entityId?: Prisma.StringNullableWithAggregatesFilter<"Log"> | string | null
   userId?: Prisma.StringNullableWithAggregatesFilter<"Log"> | string | null
+  companyId?: Prisma.StringWithAggregatesFilter<"Log"> | string
   metadata?: Prisma.JsonNullableWithAggregatesFilter<"Log">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Log"> | Date | string
 }
@@ -253,6 +268,7 @@ export type LogCreateInput = {
   userId?: string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  company: Prisma.CompanyCreateNestedOneWithoutLogsInput
 }
 
 export type LogUncheckedCreateInput = {
@@ -261,6 +277,7 @@ export type LogUncheckedCreateInput = {
   entity: string
   entityId?: string | null
   userId?: string | null
+  companyId: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
 }
@@ -273,6 +290,7 @@ export type LogUpdateInput = {
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  company?: Prisma.CompanyUpdateOneRequiredWithoutLogsNestedInput
 }
 
 export type LogUncheckedUpdateInput = {
@@ -281,6 +299,7 @@ export type LogUncheckedUpdateInput = {
   entity?: Prisma.StringFieldUpdateOperationsInput | string
   entityId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -291,6 +310,7 @@ export type LogCreateManyInput = {
   entity: string
   entityId?: string | null
   userId?: string | null
+  companyId: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
 }
@@ -311,8 +331,19 @@ export type LogUncheckedUpdateManyInput = {
   entity?: Prisma.StringFieldUpdateOperationsInput | string
   entityId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type LogListRelationFilter = {
+  every?: Prisma.LogWhereInput
+  some?: Prisma.LogWhereInput
+  none?: Prisma.LogWhereInput
+}
+
+export type LogOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type LogCountOrderByAggregateInput = {
@@ -321,6 +352,7 @@ export type LogCountOrderByAggregateInput = {
   entity?: Prisma.SortOrder
   entityId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  companyId?: Prisma.SortOrder
   metadata?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -331,6 +363,7 @@ export type LogMaxOrderByAggregateInput = {
   entity?: Prisma.SortOrder
   entityId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  companyId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -340,7 +373,150 @@ export type LogMinOrderByAggregateInput = {
   entity?: Prisma.SortOrder
   entityId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  companyId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type LogCreateNestedManyWithoutCompanyInput = {
+  create?: Prisma.XOR<Prisma.LogCreateWithoutCompanyInput, Prisma.LogUncheckedCreateWithoutCompanyInput> | Prisma.LogCreateWithoutCompanyInput[] | Prisma.LogUncheckedCreateWithoutCompanyInput[]
+  connectOrCreate?: Prisma.LogCreateOrConnectWithoutCompanyInput | Prisma.LogCreateOrConnectWithoutCompanyInput[]
+  createMany?: Prisma.LogCreateManyCompanyInputEnvelope
+  connect?: Prisma.LogWhereUniqueInput | Prisma.LogWhereUniqueInput[]
+}
+
+export type LogUncheckedCreateNestedManyWithoutCompanyInput = {
+  create?: Prisma.XOR<Prisma.LogCreateWithoutCompanyInput, Prisma.LogUncheckedCreateWithoutCompanyInput> | Prisma.LogCreateWithoutCompanyInput[] | Prisma.LogUncheckedCreateWithoutCompanyInput[]
+  connectOrCreate?: Prisma.LogCreateOrConnectWithoutCompanyInput | Prisma.LogCreateOrConnectWithoutCompanyInput[]
+  createMany?: Prisma.LogCreateManyCompanyInputEnvelope
+  connect?: Prisma.LogWhereUniqueInput | Prisma.LogWhereUniqueInput[]
+}
+
+export type LogUpdateManyWithoutCompanyNestedInput = {
+  create?: Prisma.XOR<Prisma.LogCreateWithoutCompanyInput, Prisma.LogUncheckedCreateWithoutCompanyInput> | Prisma.LogCreateWithoutCompanyInput[] | Prisma.LogUncheckedCreateWithoutCompanyInput[]
+  connectOrCreate?: Prisma.LogCreateOrConnectWithoutCompanyInput | Prisma.LogCreateOrConnectWithoutCompanyInput[]
+  upsert?: Prisma.LogUpsertWithWhereUniqueWithoutCompanyInput | Prisma.LogUpsertWithWhereUniqueWithoutCompanyInput[]
+  createMany?: Prisma.LogCreateManyCompanyInputEnvelope
+  set?: Prisma.LogWhereUniqueInput | Prisma.LogWhereUniqueInput[]
+  disconnect?: Prisma.LogWhereUniqueInput | Prisma.LogWhereUniqueInput[]
+  delete?: Prisma.LogWhereUniqueInput | Prisma.LogWhereUniqueInput[]
+  connect?: Prisma.LogWhereUniqueInput | Prisma.LogWhereUniqueInput[]
+  update?: Prisma.LogUpdateWithWhereUniqueWithoutCompanyInput | Prisma.LogUpdateWithWhereUniqueWithoutCompanyInput[]
+  updateMany?: Prisma.LogUpdateManyWithWhereWithoutCompanyInput | Prisma.LogUpdateManyWithWhereWithoutCompanyInput[]
+  deleteMany?: Prisma.LogScalarWhereInput | Prisma.LogScalarWhereInput[]
+}
+
+export type LogUncheckedUpdateManyWithoutCompanyNestedInput = {
+  create?: Prisma.XOR<Prisma.LogCreateWithoutCompanyInput, Prisma.LogUncheckedCreateWithoutCompanyInput> | Prisma.LogCreateWithoutCompanyInput[] | Prisma.LogUncheckedCreateWithoutCompanyInput[]
+  connectOrCreate?: Prisma.LogCreateOrConnectWithoutCompanyInput | Prisma.LogCreateOrConnectWithoutCompanyInput[]
+  upsert?: Prisma.LogUpsertWithWhereUniqueWithoutCompanyInput | Prisma.LogUpsertWithWhereUniqueWithoutCompanyInput[]
+  createMany?: Prisma.LogCreateManyCompanyInputEnvelope
+  set?: Prisma.LogWhereUniqueInput | Prisma.LogWhereUniqueInput[]
+  disconnect?: Prisma.LogWhereUniqueInput | Prisma.LogWhereUniqueInput[]
+  delete?: Prisma.LogWhereUniqueInput | Prisma.LogWhereUniqueInput[]
+  connect?: Prisma.LogWhereUniqueInput | Prisma.LogWhereUniqueInput[]
+  update?: Prisma.LogUpdateWithWhereUniqueWithoutCompanyInput | Prisma.LogUpdateWithWhereUniqueWithoutCompanyInput[]
+  updateMany?: Prisma.LogUpdateManyWithWhereWithoutCompanyInput | Prisma.LogUpdateManyWithWhereWithoutCompanyInput[]
+  deleteMany?: Prisma.LogScalarWhereInput | Prisma.LogScalarWhereInput[]
+}
+
+export type LogCreateWithoutCompanyInput = {
+  id?: string
+  action: string
+  entity: string
+  entityId?: string | null
+  userId?: string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+}
+
+export type LogUncheckedCreateWithoutCompanyInput = {
+  id?: string
+  action: string
+  entity: string
+  entityId?: string | null
+  userId?: string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+}
+
+export type LogCreateOrConnectWithoutCompanyInput = {
+  where: Prisma.LogWhereUniqueInput
+  create: Prisma.XOR<Prisma.LogCreateWithoutCompanyInput, Prisma.LogUncheckedCreateWithoutCompanyInput>
+}
+
+export type LogCreateManyCompanyInputEnvelope = {
+  data: Prisma.LogCreateManyCompanyInput | Prisma.LogCreateManyCompanyInput[]
+  skipDuplicates?: boolean
+}
+
+export type LogUpsertWithWhereUniqueWithoutCompanyInput = {
+  where: Prisma.LogWhereUniqueInput
+  update: Prisma.XOR<Prisma.LogUpdateWithoutCompanyInput, Prisma.LogUncheckedUpdateWithoutCompanyInput>
+  create: Prisma.XOR<Prisma.LogCreateWithoutCompanyInput, Prisma.LogUncheckedCreateWithoutCompanyInput>
+}
+
+export type LogUpdateWithWhereUniqueWithoutCompanyInput = {
+  where: Prisma.LogWhereUniqueInput
+  data: Prisma.XOR<Prisma.LogUpdateWithoutCompanyInput, Prisma.LogUncheckedUpdateWithoutCompanyInput>
+}
+
+export type LogUpdateManyWithWhereWithoutCompanyInput = {
+  where: Prisma.LogScalarWhereInput
+  data: Prisma.XOR<Prisma.LogUpdateManyMutationInput, Prisma.LogUncheckedUpdateManyWithoutCompanyInput>
+}
+
+export type LogScalarWhereInput = {
+  AND?: Prisma.LogScalarWhereInput | Prisma.LogScalarWhereInput[]
+  OR?: Prisma.LogScalarWhereInput[]
+  NOT?: Prisma.LogScalarWhereInput | Prisma.LogScalarWhereInput[]
+  id?: Prisma.StringFilter<"Log"> | string
+  action?: Prisma.StringFilter<"Log"> | string
+  entity?: Prisma.StringFilter<"Log"> | string
+  entityId?: Prisma.StringNullableFilter<"Log"> | string | null
+  userId?: Prisma.StringNullableFilter<"Log"> | string | null
+  companyId?: Prisma.StringFilter<"Log"> | string
+  metadata?: Prisma.JsonNullableFilter<"Log">
+  createdAt?: Prisma.DateTimeFilter<"Log"> | Date | string
+}
+
+export type LogCreateManyCompanyInput = {
+  id?: string
+  action: string
+  entity: string
+  entityId?: string | null
+  userId?: string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+}
+
+export type LogUpdateWithoutCompanyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  action?: Prisma.StringFieldUpdateOperationsInput | string
+  entity?: Prisma.StringFieldUpdateOperationsInput | string
+  entityId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type LogUncheckedUpdateWithoutCompanyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  action?: Prisma.StringFieldUpdateOperationsInput | string
+  entity?: Prisma.StringFieldUpdateOperationsInput | string
+  entityId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type LogUncheckedUpdateManyWithoutCompanyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  action?: Prisma.StringFieldUpdateOperationsInput | string
+  entity?: Prisma.StringFieldUpdateOperationsInput | string
+  entityId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -351,8 +527,10 @@ export type LogSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   entity?: boolean
   entityId?: boolean
   userId?: boolean
+  companyId?: boolean
   metadata?: boolean
   createdAt?: boolean
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["log"]>
 
 export type LogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -361,8 +539,10 @@ export type LogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   entity?: boolean
   entityId?: boolean
   userId?: boolean
+  companyId?: boolean
   metadata?: boolean
   createdAt?: boolean
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["log"]>
 
 export type LogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -371,8 +551,10 @@ export type LogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   entity?: boolean
   entityId?: boolean
   userId?: boolean
+  companyId?: boolean
   metadata?: boolean
   createdAt?: boolean
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["log"]>
 
 export type LogSelectScalar = {
@@ -381,21 +563,34 @@ export type LogSelectScalar = {
   entity?: boolean
   entityId?: boolean
   userId?: boolean
+  companyId?: boolean
   metadata?: boolean
   createdAt?: boolean
 }
 
-export type LogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "action" | "entity" | "entityId" | "userId" | "metadata" | "createdAt", ExtArgs["result"]["log"]>
+export type LogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "action" | "entity" | "entityId" | "userId" | "companyId" | "metadata" | "createdAt", ExtArgs["result"]["log"]>
+export type LogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+}
+export type LogIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+}
+export type LogIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+}
 
 export type $LogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Log"
-  objects: {}
+  objects: {
+    company: Prisma.$CompanyPayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     action: string
     entity: string
     entityId: string | null
     userId: string | null
+    companyId: string
     metadata: runtime.JsonValue | null
     createdAt: Date
   }, ExtArgs["result"]["log"]>
@@ -792,6 +987,7 @@ readonly fields: LogFieldRefs;
  */
 export interface Prisma__LogClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -826,6 +1022,7 @@ export interface LogFieldRefs {
   readonly entity: Prisma.FieldRef<"Log", 'String'>
   readonly entityId: Prisma.FieldRef<"Log", 'String'>
   readonly userId: Prisma.FieldRef<"Log", 'String'>
+  readonly companyId: Prisma.FieldRef<"Log", 'String'>
   readonly metadata: Prisma.FieldRef<"Log", 'Json'>
   readonly createdAt: Prisma.FieldRef<"Log", 'DateTime'>
 }
@@ -845,6 +1042,10 @@ export type LogFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   omit?: Prisma.LogOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LogInclude<ExtArgs> | null
+  /**
    * Filter, which Log to fetch.
    */
   where: Prisma.LogWhereUniqueInput
@@ -863,6 +1064,10 @@ export type LogFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.LogOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LogInclude<ExtArgs> | null
+  /**
    * Filter, which Log to fetch.
    */
   where: Prisma.LogWhereUniqueInput
@@ -880,6 +1085,10 @@ export type LogFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the Log
    */
   omit?: Prisma.LogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LogInclude<ExtArgs> | null
   /**
    * Filter, which Log to fetch.
    */
@@ -929,6 +1138,10 @@ export type LogFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.LogOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LogInclude<ExtArgs> | null
+  /**
    * Filter, which Log to fetch.
    */
   where?: Prisma.LogWhereInput
@@ -977,6 +1190,10 @@ export type LogFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.LogOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LogInclude<ExtArgs> | null
+  /**
    * Filter, which Logs to fetch.
    */
   where?: Prisma.LogWhereInput
@@ -1020,6 +1237,10 @@ export type LogCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
    */
   omit?: Prisma.LogOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LogInclude<ExtArgs> | null
+  /**
    * The data needed to create a Log.
    */
   data: Prisma.XOR<Prisma.LogCreateInput, Prisma.LogUncheckedCreateInput>
@@ -1053,6 +1274,10 @@ export type LogCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.
    */
   data: Prisma.LogCreateManyInput | Prisma.LogCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LogIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1067,6 +1292,10 @@ export type LogUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
    * Omit specific fields from the Log
    */
   omit?: Prisma.LogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LogInclude<ExtArgs> | null
   /**
    * The data needed to update a Log.
    */
@@ -1119,6 +1348,10 @@ export type LogUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.
    * Limit how many Logs to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LogIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1133,6 +1366,10 @@ export type LogUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
    * Omit specific fields from the Log
    */
   omit?: Prisma.LogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LogInclude<ExtArgs> | null
   /**
    * The filter to search for the Log to update in case it exists.
    */
@@ -1159,6 +1396,10 @@ export type LogDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
    * Omit specific fields from the Log
    */
   omit?: Prisma.LogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LogInclude<ExtArgs> | null
   /**
    * Filter which Log to delete.
    */
@@ -1191,4 +1432,8 @@ export type LogDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    * Omit specific fields from the Log
    */
   omit?: Prisma.LogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LogInclude<ExtArgs> | null
 }
