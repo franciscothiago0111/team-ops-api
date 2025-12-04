@@ -23,13 +23,13 @@ export class NotificationProcessor {
     job: Bull.Job<JobInterfaces.SendNotificationJob>,
   ) {
     this.logger.log(`Processing notification job ${job.id}`);
-    const { userId, title, message, type, entityType, entityId } = job.data;
+    const { userId, name, message, type, entityType, entityId } = job.data;
 
     try {
       const notification = await this.prismaService.notification.create({
         data: {
           userId: userId,
-          title: title,
+          title: name,
           message: message,
           type: type || 'INFO',
           entityType: entityType,
@@ -52,11 +52,9 @@ export class NotificationProcessor {
         createdAt: notification.createdAt,
       });
 
-      this.logger.log(
-        `Notification sent to user ${userId}: ${title} (${type})`,
-      );
+      this.logger.log(`Notification sent to user ${userId}: ${name} (${type})`);
 
-      return { success: true, userId, title, notificationId: notification.id };
+      return { success: true, userId, name, notificationId: notification.id };
     } catch (error) {
       this.logger.error(`Failed to process notification for ${userId}:`, error);
       throw error;

@@ -36,6 +36,7 @@ export class UserListService {
           email: true,
           name: true,
           companyId: true,
+          role: true,
         },
       }),
       this.prismaService.user.count({ where }),

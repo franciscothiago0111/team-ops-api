@@ -25,30 +25,49 @@ export class TaskListService {
     }
 
     // Build where clause based on user role
-    let where: any = {};
+    const where = {};
 
     if (user.role === Role.ADMIN) {
-      // ADMIN: List all tasks for their company
-      where = {
+      Object.assign(where, {
         team: {
           companyId: user.companyId,
         },
-        ...(query.status && { status: query.status }),
-      };
+      });
     } else if (user.role === Role.MANAGER) {
       // MANAGER: List tasks from teams they manage
-      where = {
+      Object.assign(where, {
         team: {
           managerId: userId,
         },
         ...(query.status && { status: query.status }),
-      };
+      });
     } else {
       // EMPLOYEE: List tasks assigned to them
-      where = {
+      Object.assign(where, {
         assignedToId: userId,
         ...(query.status && { status: query.status }),
-      };
+      });
+    }
+
+    if (query.name) {
+      Object.assign(where, {
+        name: {
+          contains: query.name,
+          mode: 'insensitive',
+        },
+      });
+    }
+
+    if (query.priority) {
+      Object.assign(where, {
+        priority: query.priority,
+      });
+    }
+
+    if (query.status) {
+      Object.assign(where, {
+        status: query.status,
+      });
     }
 
     const [tasks, total] = await Promise.all([

@@ -38,7 +38,7 @@ export class TaskListener {
     // Adicionar notificação à fila
     await this.queueService.addNotificationJob({
       userId: payload.assignedToId,
-      title: 'Nova Tarefa Atribuída',
+      name: 'Nova Tarefa Atribuída',
       message: `Você foi atribuído à tarefa: ${payload.name}`,
       type: 'INFO',
       entityType: 'Task',
@@ -88,7 +88,7 @@ export class TaskListener {
     // Adicionar notificação à fila
     await this.queueService.addNotificationJob({
       userId: payload.completedById,
-      title: 'Tarefa Concluída',
+      name: 'Tarefa Concluída',
       message: `Parabéns! Você concluiu a tarefa: ${payload.name}`,
       type: 'SUCCESS',
       entityType: 'Task',

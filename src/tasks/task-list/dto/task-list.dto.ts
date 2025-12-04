@@ -3,7 +3,7 @@ import { IsEnum, IsOptional } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
 import { BaseQueryDto } from 'src/common/dto';
-import { TaskStatus } from 'src/database/generated/prisma/client';
+import { TaskStatus, Priority } from 'src/database/generated/prisma/client';
 
 export class TaskListDto extends BaseQueryDto {
   @ApiPropertyOptional({
@@ -14,4 +14,13 @@ export class TaskListDto extends BaseQueryDto {
   @IsOptional()
   @IsEnum(TaskStatus)
   status?: TaskStatus;
+
+  @ApiPropertyOptional({
+    description: 'Filter tasks by priority',
+    enum: Priority,
+    example: Priority.HIGH,
+  })
+  @IsOptional()
+  @IsEnum(Priority)
+  priority?: Priority;
 }

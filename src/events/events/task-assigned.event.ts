@@ -1,7 +1,7 @@
 export class TaskAssignedEvent {
   constructor(
     public readonly taskId: string,
-    public readonly title: string,
+    public readonly name: string,
     public readonly assignedToId: string,
     public readonly assignedToName: string,
     public readonly assignedById: string,

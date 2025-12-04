@@ -52,7 +52,7 @@ export class UserListener {
     // Notify the employee
     await this.queueService.addNotificationJob({
       userId: payload.employeeId,
-      title: 'Added to Team',
+      name: 'Added to Team',
       message: `You have been added to team: ${payload.teamName}`,
       type: 'INFO',
       entityType: 'Team',

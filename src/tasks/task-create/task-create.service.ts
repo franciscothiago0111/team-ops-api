@@ -33,15 +33,7 @@ export class TaskCreateService {
       throw new NotFoundException('Team not found');
     }
 
-    // Check if creator belongs to the team
-    const userInTeam = await this.prisma.user.findFirst({
-      where: {
-        id: user.id,
-        teamId: team.id,
-      },
-    });
-
-    if (!userInTeam && user.role === 'MANAGER') {
+    if (user.role === 'MANAGER' && team.managerId !== user.id) {
       throw new ForbiddenException(
         'You must belong to the team to create tasks',
       );

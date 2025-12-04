@@ -7,7 +7,7 @@ export interface SendEmailJob {
 
 export interface SendNotificationJob {
   userId: string;
-  title: string;
+  name: string;
   message: string;
   type: 'INFO' | 'SUCCESS' | 'WARNING' | 'ERROR';
   entityType?: string;
