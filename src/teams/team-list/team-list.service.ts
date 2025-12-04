@@ -15,12 +15,18 @@ export class TeamListService {
     const skip = (page - 1) * limit;
 
     // Build where clause based on user role
-    const where: any = {};
+    const where = {};
 
-    where.companyId = currentUser.companyId;
+    // where.companyId = currentUser.companyId;
+    Object.assign(where, { companyId: currentUser.companyId });
 
     if (query.name) {
-      where.name = { contains: query.name, mode: 'insensitive' };
+      Object.assign(where, {
+        name: {
+          contains: query.name,
+          mode: 'insensitive',
+        },
+      });
     }
 
     const [teams, total] = await Promise.all([

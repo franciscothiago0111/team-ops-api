@@ -23,8 +23,6 @@ export class NotificationListController {
     @CurrentUser() user: UserPayload,
     @Query() query: NotificationListDto,
   ) {
-    console.log('Fetching notifications for user:', user, 'with query:', query);
-
     const result = await this.notificationListService.getNotificationsForUser(
       user.id,
       query,
