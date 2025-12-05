@@ -15,11 +15,11 @@ import { EmailService } from './email.service';
       provide: 'EMAIL_ADAPTER',
       useFactory: (configService: ConfigService) => {
         const emailProvider =
-          configService.get<string>('EMAIL_PROVIDER') || 'nodemailer';
+          configService.get<string>('EMAIL_PROVIDER') || 'sendgrid';
 
         // Return the appropriate adapter based on configuration
         if (emailProvider === 'sendgrid') {
-          return new SendGridAdapter();
+          return new SendGridAdapter(configService);
         }
         return new NodemailerAdapter();
       },
