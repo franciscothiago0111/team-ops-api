@@ -21,7 +21,7 @@ export class BaseQueryDto {
   @IsOptional()
   @IsInt()
   @Min(1)
-  @Max(100)
+  @Max(10000000000)
   @Type(() => Number)
   limit?: number = 10;
 
