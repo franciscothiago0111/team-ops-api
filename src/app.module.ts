@@ -17,6 +17,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { TeamsModule } from './teams/teams.module';
 import { UsersModule } from './users/users.module';
 import { WebsocketModule } from './websocket/websocket.module';
+import { LogsModule } from './logs/logs.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -36,6 +37,7 @@ import { WebsocketModule } from './websocket/websocket.module';
     MetricsModule,
     TeamsModule,
     TasksModule,
+    LogsModule,
   ],
   providers: [
     {
