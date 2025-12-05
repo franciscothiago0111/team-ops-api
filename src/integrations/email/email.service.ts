@@ -24,27 +24,4 @@ export class EmailService {
   async verifyConnection(): Promise<boolean> {
     return this.emailAdapter.verifyConnection();
   }
-
-  // High-level business methods
-  async sendWelcomeEmail(to: string, name: string): Promise<EmailResponse> {
-    return this.sendEmail({
-      to,
-      subject: 'Welcome to Team Ops!',
-      body: `Hello ${name}, welcome to our platform!`,
-      html: `<h1>Hello ${name}</h1><p>Welcome to our platform!</p>`,
-    });
-  }
-
-  async sendTaskAssignmentEmail(
-    to: string,
-    taskTitle: string,
-    assignedBy: string,
-  ): Promise<EmailResponse> {
-    return this.sendEmail({
-      to,
-      subject: `New Task Assigned: ${taskTitle}`,
-      body: `You have been assigned a new task: ${taskTitle} by ${assignedBy}`,
-      html: `<h2>New Task Assignment</h2><p><strong>${taskTitle}</strong></p><p>Assigned by: ${assignedBy}</p>`,
-    });
-  }
 }
