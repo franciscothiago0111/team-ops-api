@@ -96,7 +96,15 @@ Team Ops API is a scalable backend solution designed for multi-company environme
 - Configuration factories for module setup
 - Dynamic module creation in NestJS
 
-#### 8. **Gateway Pattern**
+#### 8. **Adapter Pattern**
+- Email service uses adapters for multiple providers (Nodemailer, SendGrid)
+- `IEmailAdapter` interface defines common contract
+- Concrete adapters (`NodemailerAdapter`, `SendGridAdapter`) implement provider-specific logic
+- Prisma uses `@prisma/adapter-pg` for PostgreSQL connection
+- Allows switching email providers without changing business logic
+- Factory pattern selects adapter based on configuration
+
+#### 9. **Gateway Pattern**
 - WebSocket gateways for real-time communication
 - Abstraction over Socket.IO protocol
 - Handles connection lifecycle and message routing

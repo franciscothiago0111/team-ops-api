@@ -37,6 +37,14 @@ export class UserListService {
           name: true,
           companyId: true,
           role: true,
+          createdAt: true,
+          updatedAt: true,
+          team: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
         },
       }),
       this.prismaService.user.count({ where }),
