@@ -345,4 +345,11 @@ WebSocket namespace `/notifications` provides:
 
 ## 📝 License
 
-This project is licensed under the UNLICENSED license.
+This project is public
+
+## 👨‍💻 Author
+
+**Francisco Thiago**
+- GitHub: [@franciscothiago0111](https://github.com/franciscothiago0111)
+# team-ops-dashboard
+
