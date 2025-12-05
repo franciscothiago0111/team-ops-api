@@ -100,7 +100,6 @@ Team Ops API is a scalable backend solution designed for multi-company environme
 - Email service uses adapters for multiple providers (Nodemailer, SendGrid)
 - `IEmailAdapter` interface defines common contract
 - Concrete adapters (`NodemailerAdapter`, `SendGridAdapter`) implement provider-specific logic
-- Prisma uses `@prisma/adapter-pg` for PostgreSQL connection
 - Allows switching email providers without changing business logic
 - Factory pattern selects adapter based on configuration
 
