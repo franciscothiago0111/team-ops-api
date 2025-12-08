@@ -3,9 +3,11 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { EmailModule } from '../integrations/email/email.module';
+import { StorageModule } from '../integrations/storage/storage.module';
 import { WebsocketModule } from '../websocket/websocket.module';
 import { QUEUE_NAMES } from './constants/queue-names.constant';
 import { EmailProcessor } from './processors/email.processor';
+import { FileProcessor } from './processors/file.processor';
 import { LogProcessor } from './processors/log.processor';
 import { NotificationProcessor } from './processors/notification.processor';
 import { TaskProcessor } from './processors/task.processor';
@@ -33,8 +35,10 @@ import { QueueService } from './services/queue.service';
       { name: QUEUE_NAMES.NOTIFICATION },
       { name: QUEUE_NAMES.TASK },
       { name: QUEUE_NAMES.LOG },
+      { name: QUEUE_NAMES.FILE },
     ),
     EmailModule,
+    StorageModule,
     WebsocketModule,
   ],
   providers: [
@@ -43,6 +47,7 @@ import { QueueService } from './services/queue.service';
     NotificationProcessor,
     TaskProcessor,
     LogProcessor,
+    FileProcessor,
   ],
   exports: [QueueService],
 })

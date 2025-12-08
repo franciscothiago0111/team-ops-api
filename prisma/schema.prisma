@@ -93,6 +93,8 @@ model Task {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
+  files File[]
+
   @@map("tasks")
 }
 
@@ -130,6 +132,25 @@ model Log {
   createdAt DateTime @default(now())
 
   @@map("logs")
+}
+
+model File {
+  id       String  @id @default(uuid())
+  filename String
+  filepath String  @default("")
+  mimetype String
+  size     Int
+  status   String? @default("PENDING") // PENDING, COMPLETED, FAILED
+  url      String?
+  error    String?
+
+  taskId String
+  task   Task   @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("files")
 }
 
 enum NotificationType {

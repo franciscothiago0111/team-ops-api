@@ -29,3 +29,16 @@ export interface CreateLogJob {
   companyId: string;
   metadata?: Record<string, any>;
 }
+
+export interface FileProcessJob {
+  action: 'upload' | 'delete';
+  fileId: string;
+  taskId: string;
+  filepath?: string;
+  file?: {
+    buffer: Buffer;
+    originalname: string;
+    mimetype: string;
+    size: number;
+  };
+}

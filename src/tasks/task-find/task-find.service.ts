@@ -36,6 +36,15 @@ export class TaskFindService {
             companyId: true,
           },
         },
+        files: {
+          select: {
+            id: true,
+            filename: true,
+            filepath: true,
+            mimetype: true,
+            size: true,
+          },
+        },
       },
     });
 

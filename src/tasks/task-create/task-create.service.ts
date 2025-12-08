@@ -58,11 +58,11 @@ export class TaskCreateService {
       }
 
       // Check if assigned user is in the same team
-      if (assignedUser.teamId !== team.id) {
-        throw new ForbiddenException(
-          'Task can only be assigned to users in the same team',
-        );
-      }
+      // if (assignedUser.teamId !== team.id) {
+      //   throw new ForbiddenException(
+      //     'Task can only be assigned to users in the same team',
+      //   );
+      // }
 
       // Check if assigned user is in the same company
       if (assignedUser.companyId !== team.companyId) {

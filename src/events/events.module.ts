@@ -2,6 +2,7 @@ import { Global, Module } from '@nestjs/common';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 
 import { QueueModule } from '../queue/queue.module';
+import { FileListener } from './listeners/file.listener';
 import { TaskListener } from './listeners/task.listener';
 import { UserListener } from './listeners/user.listener';
 import { EventDispatcherService } from './services/event-dispatcher.service';
@@ -21,7 +22,7 @@ import { EventDispatcherService } from './services/event-dispatcher.service';
     }),
     QueueModule,
   ],
-  providers: [TaskListener, UserListener, EventDispatcherService],
+  providers: [TaskListener, UserListener, FileListener, EventDispatcherService],
   exports: [EventDispatcherService],
 })
 export class EventsModule {}

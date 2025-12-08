@@ -3,6 +3,7 @@ export const QUEUE_NAMES = {
   NOTIFICATION: 'notification-queue',
   TASK: 'task-queue',
   LOG: 'log-queue',
+  FILE: 'file-queue',
 } as const;
 
 export type QueueName = (typeof QUEUE_NAMES)[keyof typeof QUEUE_NAMES];

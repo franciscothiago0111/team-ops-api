@@ -7,6 +7,8 @@ export const EVENT_NAMES = {
   TEAM_CREATED: 'team.created',
   USER_CREATED: 'user.created',
   COMPANY_CREATED: 'company.created',
+  FILE_UPLOAD: 'file.upload',
+  FILE_DELETE: 'file.delete',
 } as const;
 
 export type EventName = (typeof EVENT_NAMES)[keyof typeof EVENT_NAMES];

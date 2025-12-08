@@ -16,6 +16,7 @@ export class QueueService {
     private notificationQueue: Bull.Queue,
     @InjectQueue(QUEUE_NAMES.TASK) private taskQueue: Bull.Queue,
     @InjectQueue(QUEUE_NAMES.LOG) private logQueue: Bull.Queue,
+    @InjectQueue(QUEUE_NAMES.FILE) private fileQueue: Bull.Queue,
   ) {}
 
   /**
@@ -84,6 +85,25 @@ export class QueueService {
   }
 
   /**
+   * Adiciona um job de arquivo à fila
+   */
+  async addFileJob(data: JobInterfaces.FileProcessJob, priority = 5) {
+    this.logger.log(
+      `Adding file job to queue: ${data.action} for file ${data.fileId}`,
+    );
+    return this.fileQueue.add(data, {
+      priority,
+      attempts: 3,
+      backoff: {
+        type: 'exponential',
+        delay: 2000,
+      },
+      removeOnComplete: true,
+      removeOnFail: false,
+    });
+  }
+
+  /**
    * Obtém estatísticas de uma fila específica
    */
   async getQueueStats(queueName: string) {
@@ -101,6 +121,9 @@ export class QueueService {
         break;
       case QUEUE_NAMES.LOG:
         queue = this.logQueue;
+        break;
+      case QUEUE_NAMES.FILE:
+        queue = this.fileQueue;
         break;
       default:
         throw new Error(`Unknown queue: ${queueName}`);
