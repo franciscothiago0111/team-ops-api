@@ -37,14 +37,12 @@ COPY package*.json ./
 COPY prisma ./prisma/
 COPY docker-entrypoint.sh ./
 
-# Make entrypoint executable
-RUN chmod +x docker-entrypoint.sh
-
 # Install production dependencies only
 RUN npm install --omit=dev && npm cache clean --force
 
 # Set placeholder DATABASE_URL for Prisma generation
-ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder?schema=public"
+ARG DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder?schema=public"
+ENV DATABASE_URL=$DATABASE_URL
 
 # Generate Prisma Client in production
 RUN npx prisma generate
@@ -52,9 +50,10 @@ RUN npx prisma generate
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
 
-# Create non-root user
+# Create non-root user and set permissions
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nodejs -u 1001 && \
+    chmod +x docker-entrypoint.sh && \
     chown -R nodejs:nodejs /app
 
 # Switch to non-root user
@@ -64,7 +63,7 @@ USER nodejs
 EXPOSE 3000
 
 # Use dumb-init to handle signals properly and run entrypoint script
-ENTRYPOINT ["dumb-init", "--", "./docker-entrypoint.sh"]
+ENTRYPOINT ["dumb-init", "--", "/bin/sh", "./docker-entrypoint.sh"]
 
 # Start the application
 CMD ["node", "dist/main"]
