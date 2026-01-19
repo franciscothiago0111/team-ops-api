@@ -10,6 +10,14 @@ fi
 echo "Running Prisma migrations..."
 npx prisma migrate deploy
 
+# Check if migrations succeeded
+if [ $? -ne 0 ]; then
+  echo "Error: Prisma migrations failed"
+  exit 1
+fi
+
+echo "Migrations completed successfully"
+
 # Start the application
 echo "Starting application..."
 exec "$@" 

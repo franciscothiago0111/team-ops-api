@@ -33,6 +33,8 @@ WORKDIR /app
 # Copy package files and entrypoint script
 COPY package*.json ./
 COPY prisma ./prisma/
+COPY prisma.config.ts ./
+COPY tsconfig.json ./
 COPY docker-entrypoint.sh ./
 
 # Install production dependencies only
@@ -58,8 +60,8 @@ USER nodejs
 # Expose port
 EXPOSE 3000
 
-# Use dumb-init to handle signals properly and run entrypoint script
-ENTRYPOINT ["dumb-init", "--", "/bin/sh", "./docker-entrypoint.sh"]
+# Use dumb-init to handle signals properly
+ENTRYPOINT ["dumb-init", "--"]
 
-# Start the application
-CMD ["node", "dist/main"]
+# Run migrations and start the application
+CMD ["/bin/sh", "-c", "npx prisma migrate deploy && node dist/main"]
