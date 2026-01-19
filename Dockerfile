@@ -15,9 +15,6 @@ RUN npm install
 # Copy application files
 COPY . .
 
-# Debug: List src directory structure
-RUN ls -la src/ && ls -la src/logs/ || echo "logs directory not found"
-
 # Set a placeholder DATABASE_URL for Prisma generation during build
 ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder?schema=public"
 
@@ -42,9 +39,14 @@ COPY prisma ./prisma/
 # Install production dependencies only
 RUN npm install --omit=dev && npm cache clean --force
 
+# Set placeholder DATABASE_URL for Prisma generation
+ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder?schema=public"
+
+# Generate Prisma Client in production
+RUN npx prisma generate
+
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && \
