@@ -33,6 +33,7 @@ export class TaskUpdateController {
     @CurrentUser() user: UserPayload,
     @Body() updateTaskDto: UpdateTaskDto,
   ) {
+    console.log(`User ${user.id} is updating task ${id}`);
     const task = await this.taskUpdateService.update(id, updateTaskDto, user);
     return this.responseService.success({
       message: 'Task updated successfully',
