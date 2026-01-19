@@ -8,14 +8,11 @@ WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
-COPY prisma ./prisma/
-COPY nest-cli.json ./
-COPY tsconfig*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy source code
+# Copy application files
 COPY . .
 
 # Set a placeholder DATABASE_URL for Prisma generation during build
