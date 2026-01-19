@@ -39,8 +39,6 @@ export class NotificationProcessor {
 
       this.logger.log(`Notification saved to database: ${notification.id}`);
 
-      console.log('notification', notification);
-
       // Send notification via WebSocket
       this.notificationsGateway.sendToUser(userId, {
         id: notification.id,
