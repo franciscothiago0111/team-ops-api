@@ -15,8 +15,6 @@ RUN npm install
 # Copy application files
 COPY . .
 
-# Set a placeholder DATABASE_URL for Prisma generation during build
-ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder?schema=public"
 
 # Generate Prisma Client
 RUN npx prisma generate
@@ -40,9 +38,7 @@ COPY docker-entrypoint.sh ./
 # Install production dependencies only
 RUN npm install --omit=dev && npm cache clean --force
 
-# Set placeholder DATABASE_URL for Prisma generation
-ARG DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder?schema=public"
-ENV DATABASE_URL=$DATABASE_URL
+
 
 # Generate Prisma Client in production
 RUN npx prisma generate
