@@ -18,3 +18,7 @@ README.md
 .prettierrc
 .eslintrc.js
 eslint.config.mjs
+
+# Exclude log files but NOT the src/logs directory
+*.log
+!src/logs/
