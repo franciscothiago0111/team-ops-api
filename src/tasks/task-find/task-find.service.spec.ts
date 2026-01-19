@@ -11,6 +11,7 @@ describe('TaskFindService', () => {
     }).compile();
 
     service = module.get<TaskFindService>(TaskFindService);
+    console.log = jest.fn(); // Disable console.log during tests
   });
 
   it('should be defined', () => {
