@@ -1,26 +1,64 @@
-FROM node:22
+# Build stage
+FROM node:22-alpine AS builder
 
-# Create app directory
-WORKDIR /usr/src/app
+# Install dependencies for native modules
+RUN apk add --no-cache python3 make g++
 
-# Copy dependencies
+WORKDIR /app
+
+# Copy package files
 COPY package*.json ./
+COPY prisma ./prisma/
 COPY nest-cli.json ./
+COPY tsconfig*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm ci
 
-# Copy the rest of the app
+# Copy source code
 COPY . .
 
-# Build Prisma client
-# RUN npx prisma generate
+# Set a placeholder DATABASE_URL for Prisma generation during build
+ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder?schema=public"
 
+# Generate Prisma Client
 RUN npx prisma generate
+
+# Build the application
 RUN npm run build
 
-# Expose app port
+# Production stage
+FROM node:22-alpine
+
+# Install dumb-init for proper signal handling
+RUN apk add --no-cache dumb-init
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+COPY prisma ./prisma/
+
+# Install production dependencies only
+RUN npm ci --only=production && npm cache clean --force
+
+# Copy built application from builder stage
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001 && \
+    chown -R nodejs:nodejs /app
+
+# Switch to non-root user
+USER nodejs
+
+# Expose port
 EXPOSE 3000
 
-# ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["node", "dist/main.js"]
+# Use dumb-init to handle signals properly
+ENTRYPOINT ["dumb-init", "--"]
+
+# Start the application
+CMD ["node", "dist/main"]
