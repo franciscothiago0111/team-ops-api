@@ -15,6 +15,9 @@ RUN npm install
 # Copy application files
 COPY . .
 
+# Debug: List src directory structure
+RUN ls -la src/ && ls -la src/logs/ || echo "logs directory not found"
+
 # Set a placeholder DATABASE_URL for Prisma generation during build
 ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder?schema=public"
 
