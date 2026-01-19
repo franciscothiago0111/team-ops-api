@@ -32,9 +32,13 @@ RUN apk add --no-cache dumb-init
 
 WORKDIR /app
 
-# Copy package files
+# Copy package files and entrypoint script
 COPY package*.json ./
 COPY prisma ./prisma/
+COPY docker-entrypoint.sh ./
+
+# Make entrypoint executable
+RUN chmod +x docker-entrypoint.sh
 
 # Install production dependencies only
 RUN npm install --omit=dev && npm cache clean --force
@@ -52,14 +56,14 @@ COPY --from=builder /app/dist ./dist
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nodejs -u 1001 && \
     chown -R nodejs:nodejs /app
-
-# Switch to non-root user
-USER nodejs
-
 # Expose port
-EXPOSE 3001
+EXPOSE 3000
 
-# Use dumb-init to handle signals properly
+# Use dumb-init to handle signals properly and run entrypoint script
+ENTRYPOINT ["dumb-init", "--", "./docker-entrypoint.sh"]
+
+# Start the application
+CMD ["node", "dist/main"] signals properly
 ENTRYPOINT ["dumb-init", "--"]
 
 # Start the application
