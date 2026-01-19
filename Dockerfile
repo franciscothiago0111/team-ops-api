@@ -56,15 +56,15 @@ COPY --from=builder /app/dist ./dist
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nodejs -u 1001 && \
     chown -R nodejs:nodejs /app
+
+# Switch to non-root user
+USER nodejs
+
 # Expose port
 EXPOSE 3000
 
 # Use dumb-init to handle signals properly and run entrypoint script
 ENTRYPOINT ["dumb-init", "--", "./docker-entrypoint.sh"]
-
-# Start the application
-CMD ["node", "dist/main"] signals properly
-ENTRYPOINT ["dumb-init", "--"]
 
 # Start the application
 CMD ["node", "dist/main"]
