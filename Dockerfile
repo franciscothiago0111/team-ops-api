@@ -16,7 +16,7 @@ RUN npm install
 COPY . .
 
 # Set a placeholder DATABASE_URL for Prisma generation during build
-# ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder?schema=public"
+ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder?schema=public"
 
 # Generate Prisma Client
 RUN npx prisma generate
