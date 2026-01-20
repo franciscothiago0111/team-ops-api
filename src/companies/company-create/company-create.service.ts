@@ -29,8 +29,6 @@ export class CompanyCreateService {
       throw new ConflictException('Company name already in use');
     }
 
-    console.log('Creating company and admin user...');
-
     // Hash password
     const hashedPassword = await bcrypt.hash(createCompanyDto.password, 10);
 
