@@ -26,6 +26,12 @@ export class UserListService {
       Object.assign(where, { teamId: null });
     }
 
+    if (query.name) {
+      Object.assign(where, {
+        name: { contains: query.name, mode: 'insensitive' },
+      });
+    }
+
     const [users, total] = await Promise.all([
       this.prismaService.user.findMany({
         where,

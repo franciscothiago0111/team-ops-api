@@ -7,10 +7,10 @@ RUN apk add --no-cache python3 make g++
 WORKDIR /app
 
 # Copy package files
-COPY package*.json ./
+COPY package.json yarn.lock ./
 
 # Install dependencies
-RUN npm install
+RUN yarn install --frozen-lockfile
 
 # Copy application files
 COPY . .
@@ -20,7 +20,7 @@ COPY . .
 RUN npx prisma generate
 
 # Build the application
-RUN npm run build
+RUN yarn build
 
 # Production stage
 FROM node:22-alpine
@@ -31,14 +31,14 @@ RUN apk add --no-cache dumb-init
 WORKDIR /app
 
 # Copy package files and entrypoint script
-COPY package*.json ./
+COPY package.json yarn.lock ./
 COPY prisma ./prisma/
 COPY prisma.config.ts ./
 COPY tsconfig.json ./
 COPY docker-entrypoint.sh ./
 
 # Install production dependencies only
-RUN npm install --omit=dev && npm cache clean --force
+RUN yarn install --frozen-lockfile --production && yarn cache clean
 
 
 
