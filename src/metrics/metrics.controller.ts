@@ -21,7 +21,7 @@ export class MetricsController {
   @ApiOperation({
     summary: 'Get metrics based on user role',
     description:
-      'Returns role-specific metrics: ADMIN gets company-wide metrics, MANAGER gets team metrics, EMPLOYEE gets personal metrics. Supports filtering by date range, team, user, task status, and priority.',
+      'Returns role-specific metrics: MASTER gets all-companies overview, ADMIN gets company-wide metrics, MANAGER gets team metrics, EMPLOYEE gets personal metrics. Supports filtering by date range, team, user, task status, and priority.',
   })
   async getMetrics(
     @CurrentUser() user: UserPayload,

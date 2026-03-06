@@ -19,7 +19,7 @@ model User {
   email    String @unique
   name     String
   password String
-  role     Role   @default(EMPLOYEE) // ADMIN | MANAGER | EMPLOYEE
+  role     Role   @default(EMPLOYEE) // MASTER | ADMIN | MANAGER | EMPLOYEE
 
   companyId      String
   company        Company  @relation("CompanyUsers", fields: [companyId], references: [id])
@@ -36,8 +36,23 @@ model User {
   createdTasks  Task[]         @relation("TaskCreator")
   notifications Notification[]
   logs          Log[]
+  refreshTokens RefreshToken[]
 
   @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  expiresAt DateTime @map("expires_at")
+  revoked   Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("refresh_tokens")
 }
 
 model Company {
@@ -175,6 +190,7 @@ enum Priority {
 }
 
 enum Role {
+  MASTER
   ADMIN
   MANAGER
   EMPLOYEE

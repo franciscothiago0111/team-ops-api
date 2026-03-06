@@ -16,6 +16,7 @@ export interface UserMetrics {
   total: number;
   active: number;
   byRole: {
+    master?: number;
     admin: number;
     manager: number;
     employee: number;
@@ -145,5 +146,27 @@ export interface EmployeeMetricsResponse {
     title: string;
     dueDate: Date;
     priority: string;
+  }>;
+}
+
+// MASTER Metrics - All companies overview
+export interface MasterMetricsResponse {
+  period: {
+    startDate: Date;
+    endDate: Date;
+  };
+  global: {
+    totalCompanies: number;
+    totalUsers: number;
+    totalTeams: number;
+    totalTasks: number;
+  };
+  companies: Array<{
+    id: string;
+    name: string;
+    users: UserMetrics;
+    teams: TeamMetrics;
+    tasks: TaskMetrics;
+    productivity: ProductivityMetrics;
   }>;
 }

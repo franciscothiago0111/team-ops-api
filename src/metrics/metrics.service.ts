@@ -8,6 +8,7 @@ import {
   AdminMetricsResponse,
   ManagerMetricsResponse,
   EmployeeMetricsResponse,
+  MasterMetricsResponse,
 } from './interfaces/metrics.interface';
 
 @Injectable()
@@ -18,7 +19,10 @@ export class MetricsService {
     userId: string,
     query: MetricsDto,
   ): Promise<
-    AdminMetricsResponse | ManagerMetricsResponse | EmployeeMetricsResponse
+    | AdminMetricsResponse
+    | ManagerMetricsResponse
+    | EmployeeMetricsResponse
+    | MasterMetricsResponse
   > {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
@@ -35,6 +39,8 @@ export class MetricsService {
     const endDate = query.endDate ? new Date(query.endDate) : new Date();
 
     switch (user.role) {
+      case Role.MASTER:
+        return this.getMasterMetrics(startDate, endDate, query);
       case Role.ADMIN:
         return this.getAdminMetrics(user, startDate, endDate, query);
       case Role.MANAGER:
@@ -44,6 +50,162 @@ export class MetricsService {
       default:
         throw new Error('Invalid user role');
     }
+  }
+
+  private async getMasterMetrics(
+    startDate: Date,
+    endDate: Date,
+    query: MetricsDto,
+  ): Promise<MasterMetricsResponse> {
+    const companies = await this.prisma.company.findMany({
+      include: { _count: { select: { users: true, teams: true } } },
+    });
+
+    const [totalUsers, totalTeams, totalTasks] = await Promise.all([
+      this.prisma.user.count(),
+      this.prisma.team.count(),
+      this.prisma.task.count({
+        where: { createdAt: { gte: startDate, lte: endDate } },
+      }),
+    ]);
+
+    const companiesMetrics = await Promise.all(
+      companies.map(async (company) => {
+        const taskFilter: any = {
+          team: { companyId: company.id },
+          createdAt: { gte: startDate, lte: endDate },
+        };
+        if (query.taskStatus) taskFilter.status = query.taskStatus;
+        if (query.priority) taskFilter.priority = query.priority;
+
+        const [
+          totalTasksCount,
+          pendingTasks,
+          inProgressTasks,
+          doneTasks,
+          lowPriorityTasks,
+          mediumPriorityTasks,
+          highPriorityTasks,
+          urgentPriorityTasks,
+          overdueTasks,
+          totalUsersCount,
+          adminUsers,
+          managerUsers,
+          employeeUsers,
+          totalTeamsCount,
+          teams,
+          topUsers,
+        ] = await Promise.all([
+          this.prisma.task.count({ where: taskFilter }),
+          this.prisma.task.count({ where: { ...taskFilter, status: 'PENDING' } }),
+          this.prisma.task.count({ where: { ...taskFilter, status: 'IN_PROGRESS' } }),
+          this.prisma.task.count({ where: { ...taskFilter, status: 'COMPLETED' } }),
+          this.prisma.task.count({ where: { ...taskFilter, priority: 'LOW' } }),
+          this.prisma.task.count({ where: { ...taskFilter, priority: 'MEDIUM' } }),
+          this.prisma.task.count({ where: { ...taskFilter, priority: 'HIGH' } }),
+          this.prisma.task.count({ where: { ...taskFilter, priority: 'URGENT' } }),
+          this.prisma.task.count({
+            where: {
+              ...taskFilter,
+              dueDate: { lt: new Date() },
+              status: { not: 'COMPLETED' },
+            },
+          }),
+          this.prisma.user.count({ where: { companyId: company.id } }),
+          this.prisma.user.count({ where: { companyId: company.id, role: 'ADMIN' } }),
+          this.prisma.user.count({ where: { companyId: company.id, role: 'MANAGER' } }),
+          this.prisma.user.count({ where: { companyId: company.id, role: 'EMPLOYEE' } }),
+          this.prisma.team.count({ where: { companyId: company.id } }),
+          this.prisma.team.findMany({
+            where: { companyId: company.id },
+            include: { _count: { select: { tasks: true } } },
+            orderBy: { tasks: { _count: 'desc' } },
+            take: 5,
+          }),
+          this.prisma.user.findMany({
+            where: { companyId: company.id },
+            include: {
+              _count: {
+                select: {
+                  assignedTasks: {
+                    where: {
+                      status: 'COMPLETED',
+                      updatedAt: { gte: startDate, lte: endDate },
+                    },
+                  },
+                },
+              },
+            },
+            orderBy: { assignedTasks: { _count: 'desc' } },
+            take: 5,
+          }),
+        ]);
+
+        const teamSizes = await this.prisma.team.findMany({
+          where: { companyId: company.id },
+          include: { _count: { select: { members: true } } },
+        });
+        const averageTeamSize =
+          teamSizes.reduce((sum, team) => sum + team._count.members, 0) /
+          (totalTeamsCount || 1);
+
+        return {
+          id: company.id,
+          name: company.name,
+          users: {
+            total: totalUsersCount,
+            active: totalUsersCount,
+            byRole: {
+              admin: adminUsers,
+              manager: managerUsers,
+              employee: employeeUsers,
+            },
+          },
+          teams: {
+            total: totalTeamsCount,
+            averageTeamSize,
+            teamsWithMostTasks: teams.map((team) => ({
+              teamId: team.id,
+              teamName: team.name,
+              taskCount: team._count.tasks,
+            })),
+          },
+          tasks: {
+            total: totalTasksCount,
+            pending: pendingTasks,
+            inProgress: inProgressTasks,
+            done: doneTasks,
+            byPriority: {
+              low: lowPriorityTasks,
+              medium: mediumPriorityTasks,
+              high: highPriorityTasks,
+              urgent: urgentPriorityTasks,
+            },
+            overdue: overdueTasks,
+          },
+          productivity: {
+            tasksCompletedInPeriod: doneTasks,
+            averageCompletionTime: 0,
+            mostProductiveUsers: topUsers.map((u) => ({
+              userId: u.id,
+              userName: u.name || 'Unknown User',
+              tasksCompleted: u._count.assignedTasks,
+            })),
+          },
+        };
+      }),
+    );
+
+    return {
+      period: { startDate, endDate },
+      global: {
+        totalCompanies: companies.length,
+        totalUsers,
+        totalTeams,
+        totalTasks,
+      },
+      companies: companiesMetrics,
+    };
   }
 
   private async getAdminMetrics(

@@ -40,6 +40,7 @@ export type Priority = (typeof Priority)[keyof typeof Priority]
 
 
 export const Role = {
+  MASTER: 'MASTER',
   ADMIN: 'ADMIN',
   MANAGER: 'MANAGER',
   EMPLOYEE: 'EMPLOYEE'

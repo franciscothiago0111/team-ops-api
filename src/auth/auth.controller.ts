@@ -5,6 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Get,
+  UseGuards,
 } from '@nestjs/common';
 
 import { ResponseService } from 'src/common/services';
@@ -13,6 +14,7 @@ import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { Public } from './decorators/public.decorator';
 import { SignInDto } from './dto/signin.dto';
+import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guard';
 import type { UserPayload } from './interfaces/user-payload.interface';
 
 @Controller('auth')
@@ -39,6 +41,28 @@ export class AuthController {
     return this.responseService.success({
       message: 'User retrieved successfully',
       data: result,
+    });
+  }
+
+  @Public()
+  @UseGuards(JwtRefreshAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @Post('refresh')
+  async refresh(@CurrentUser() user: UserPayload & { refreshTokenId: string }) {
+    const result = await this.authService.refresh(user.id, user.refreshTokenId);
+    return this.responseService.success({
+      message: 'Tokens refreshed successfully',
+      data: result,
+    });
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('logout')
+  async logout(@CurrentUser() user: UserPayload) {
+    await this.authService.logout(user.id);
+    return this.responseService.success({
+      message: 'Logged out successfully',
+      data: null,
     });
   }
 }
