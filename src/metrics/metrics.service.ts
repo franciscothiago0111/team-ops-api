@@ -97,13 +97,25 @@ export class MetricsService {
           topUsers,
         ] = await Promise.all([
           this.prisma.task.count({ where: taskFilter }),
-          this.prisma.task.count({ where: { ...taskFilter, status: 'PENDING' } }),
-          this.prisma.task.count({ where: { ...taskFilter, status: 'IN_PROGRESS' } }),
-          this.prisma.task.count({ where: { ...taskFilter, status: 'COMPLETED' } }),
+          this.prisma.task.count({
+            where: { ...taskFilter, status: 'PENDING' },
+          }),
+          this.prisma.task.count({
+            where: { ...taskFilter, status: 'IN_PROGRESS' },
+          }),
+          this.prisma.task.count({
+            where: { ...taskFilter, status: 'COMPLETED' },
+          }),
           this.prisma.task.count({ where: { ...taskFilter, priority: 'LOW' } }),
-          this.prisma.task.count({ where: { ...taskFilter, priority: 'MEDIUM' } }),
-          this.prisma.task.count({ where: { ...taskFilter, priority: 'HIGH' } }),
-          this.prisma.task.count({ where: { ...taskFilter, priority: 'URGENT' } }),
+          this.prisma.task.count({
+            where: { ...taskFilter, priority: 'MEDIUM' },
+          }),
+          this.prisma.task.count({
+            where: { ...taskFilter, priority: 'HIGH' },
+          }),
+          this.prisma.task.count({
+            where: { ...taskFilter, priority: 'URGENT' },
+          }),
           this.prisma.task.count({
             where: {
               ...taskFilter,
@@ -112,9 +124,15 @@ export class MetricsService {
             },
           }),
           this.prisma.user.count({ where: { companyId: company.id } }),
-          this.prisma.user.count({ where: { companyId: company.id, role: 'ADMIN' } }),
-          this.prisma.user.count({ where: { companyId: company.id, role: 'MANAGER' } }),
-          this.prisma.user.count({ where: { companyId: company.id, role: 'EMPLOYEE' } }),
+          this.prisma.user.count({
+            where: { companyId: company.id, role: 'ADMIN' },
+          }),
+          this.prisma.user.count({
+            where: { companyId: company.id, role: 'MANAGER' },
+          }),
+          this.prisma.user.count({
+            where: { companyId: company.id, role: 'EMPLOYEE' },
+          }),
           this.prisma.team.count({ where: { companyId: company.id } }),
           this.prisma.team.findMany({
             where: { companyId: company.id },
